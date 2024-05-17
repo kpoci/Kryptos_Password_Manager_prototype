@@ -317,6 +317,10 @@ def decrypt_password():
     finally:
         cur.close()
 
-     
+@app.route('/logout')
+def logout():
+    session.clear()  # Clear the user session
+    return redirect(url_for('login'))  # Redirect to home page or login page
+
 if __name__ == "__main__":
     app.run(debug=True)
