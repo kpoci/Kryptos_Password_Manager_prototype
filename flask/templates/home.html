@@ -12,7 +12,7 @@
         
     </head>
       <nav class="navbar navbar-light bg-light" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-            <a class="navbar-brand mb-0 h2"><b>Kry<span style="color: rgb(8, 109, 73);">ptos***</b></span></a></a>
+            <a class="navbar-brand mb-0 h2" href="home"><b>Kry<span style="color: rgb(8, 109, 73);">ptos***</b></span></a></a>
           </ul>
         </div>
       </nav>
@@ -58,6 +58,11 @@
             margin: 1.75rem auto; /* Adjusting the margin to center the modal */
             padding-right: 10px;
         }
+
+        #v-pills-logout-tab:hover {
+            background-color: #A32424 !important; /* Change background color to red on hover */
+            color: white; /* Change text color to white */
+        }
     </style>
     <body>
         <div class="row">
@@ -67,6 +72,7 @@
                     <a class="nav-link" id="v-pills-profile-tab" data-toggle="modal" href="#masterPasswordModal" role="tab" aria-controls="v-pills-profile" aria-selected="false">Key Vault</a>
                     <a class="nav-link" id="v-pills-messages-tab" href="passwordvault" role="tab" aria-controls="v-pills-messages" aria-selected="false">Records</a>
                     <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+                    <a class="nav-link" id="v-pills-logout-tab" href="/logout" role="tab" aria-controls="v-pills-logout" aria-selected="false">Logout</a> <!-- Logout pill -->
                 </div>
             </div>
             <div class="col-9">
@@ -320,6 +326,21 @@
                         }
                     });
                 }
+            });
+            $(document).ready(function() {
+                $('#logoutButton').on('click', function() {
+                    $.ajax({
+                        url: '/logout',
+                        type: 'GET',
+                        success: function(response) {
+                            window.location.href = '/';  // Redirect to the home or login page
+                        },
+                        error: function(error) {
+                            console.error('Error:', error);
+                            alert('Error logging out. Please try again.');
+                        }
+                    });
+                });
             });
         </script>
     </body>
