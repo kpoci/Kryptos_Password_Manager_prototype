@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title%} Login Page {% endblock %}
+{% block content%}
+<div class="container" id="signin">
+        <h1 class="form-title">Kry<span style="color: rgb(8, 109, 73);">ptos***</h1>
+  <form method="post" action=>
+    <div class="input-group">
+        <input type="username" name="username" id="username" placeholder="Username" required>
+        <label for="username">Username</label>
+    </div>
+    <div class="input-group">
+        <input type="password" name="password" id="password" placeholder="Password" required>
+        <label for="password">Password</label>
+    </div>
+    <p class="recover">
+      <a href="#">Recover Password</a>
+    </p>
+   <input type="submit" class="btn" value="Log In" name="signIn">
+  </form>
+  <p class="or">
+  <div class="links">
+    <p>Don't have account yet?</p>
+    <button id="signUpButton">Sign Up</button>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='script.js')}}"></script>
+{% endblock %}

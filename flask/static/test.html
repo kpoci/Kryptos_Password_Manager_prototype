@@ -1,0 +1,398 @@
+{% extends "base.html" %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+{% block title%} Kryptos {% endblock %}
+
+{% block content%}
+<style>
+    .card-container {
+        display: flex;
+        justify-content: center;
+        gap: 60px;
+        margin-left: -150px;
+    }
+    .card {
+        margin: 10px;
+        font-size: 24px;
+        width: 100%; /* Set the card width to 100% of its container */
+        max-width: 18rem;
+    }
+    .custom-nav-column {
+        background-color: rgb(8, 109, 73); /* Custom background color */
+        color: white;
+    }
+
+    .custom-tab-content {
+        background-color: rgb(8, 109, 73); /* Custom background color */
+    }
+
+    .nav-pills .nav-link.active {
+        background-color: rgb(8, 109, 73); /* Custom background color for active link */
+        color: white; /* Custom text color for active link */
+    }
+
+    .nav-pills .nav-link:hover {
+        background-color: rgb(8, 109, 73); /* Custom background color on hover */
+        color: white; /* Custom text color on hover */
+    }
+
+    .nav-pills .nav-link {
+        color: black /* Custom text color for inactive links */
+    }
+
+    .btn-success {
+        width: 50px; /* Set the button width */
+        height: 50px; /* Set the button height */
+        margin-top: 30px;
+        border-radius: 10px;
+        background-color: rgb(8, 109, 73);
+        color:#ffff;
+        margin-left:-20px;
+    }
+    .fixed-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+    .new-container {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+    }
+    .custom-btn {
+        width: 70px; /* Set the button width */
+        height: 70px; /* Set the button height */
+        margin-top: 30px;
+        border-radius: 10px;
+        background-color: #ffff;
+        color: rgb(8, 109, 73);
+        margin-left:-20px;
+    }
+</style>
+<div class="row">
+    <div class="col-3">
+        <div class="nav flex-column nav-pills p-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link" id="v-pills-home-tab" href="home" role="tab" aria-controls="v-pills-home" aria-selected="false">Home</a>
+            <a class="nav-link" id="v-pills-profile-tab" data-toggle="modal" href="#masterPasswordModal" role="tab" aria-controls="v-pills-profile" aria-selected="false">Key Vault</a>
+            <a class="nav-link active" id="v-pills-messages-tab" href="passwordvault" role="tab" aria-controls="v-pills-messages" aria-selected="false">Records</a>
+            <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                <!-- The Modal -->
+                <div class="modal fade" id="inputModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Enter Key Details</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;"></button>
+                            </div>
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <form id="keyForm">
+                                    <div class="form-group">
+                                        <label1 for="keyName">Key Name:</label1>
+                                        <input type="text" class="form-control" id="keyName" name="keyName" required>
+                                    </div>
+                                    <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
+                                </form>
+                            </div>
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Master Password Modal -->
+            <div class="modal fade" id="masterPasswordModal" tabindex="-1" role="dialog" aria-labelledby="masterPasswordModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="masterPasswordModalLabel">Enter Master Password</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="masterPasswordForm">
+                                <div class="form-group">
+                                    <label1 for="masterPassword">Master Password:</label1>
+                                    <input type="password" class="form-control" id="masterPassword" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Verify</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="keysModal" tabindex="-1" role="dialog" aria-labelledby="keysModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="keysModalLabel">Key Vault</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Key Name</th>
+                                        <th>Key</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="keysTableBody">
+                                    <!-- Keys will be inserted here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid mt-5">
+                <div id="containerWrapper"></div>
+            </div>
+            <!-- Fixed Button -->
+            <button type="button" class="btn btn-success fixed-button" data-toggle="modal" data-target="#exampleModal">+</button>
+            <!-- Modal for Adding Container -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Enter Details</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="modalForm">
+                                <div class="form-group">
+                                    <label1 for="url">Site (URL)</label1>
+                                    <input type="url" class="form-control" id="url" placeholder="https://example.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label1 for="email">Login Name (Email)</label1>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label1 for="password">Password</label1>
+                                    <input type="password" class="form-control" id="password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label1 for="keyName">Key Name</label1>
+                                    <input type="text" class="form-control" id="keysName" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Container</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <!-- Modal for Entering Key Name -->
+                <div class="modal fade" id="keyNameModal" tabindex="-1" role="dialog" aria-labelledby="keyNameModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="keyNameModalLabel">Enter Key Name</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="keyNameForm">
+                                    <div class="form-group">
+                                        <label for="keyNameInput">Key Name</label>
+                                        <input type="text" class="form-control" id="keyNameInput" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Modal for Viewing Detailed Information -->
+                <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="viewModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="viewModalLabel">View Details</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p><b>URL:</b> <span id="viewUrl"></span></p>
+                                <p><b>Email:</b> <span id="viewEmail"></span></p>
+                                <p><b>Password:</b> <span id="viewPassword"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Include jQuery and Bootstrap JS in the correct order -->
+                <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+                <script>
+                    // JavaScript code goes here
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Fetch containers on page load
+                        fetchContainers();
+                    
+                        // Handle form submission for adding a new container
+                        document.getElementById('modalForm').addEventListener('submit', function(event) {
+                            event.preventDefault();
+                    
+                            // Get the values from the input fields
+                            const site = document.getElementById('url').value;
+                            const loginName = document.getElementById('email').value;
+                            const password = document.getElementById('password').value;
+                            const keyName = document.getElementById('keysName').value;
+                    
+                            // Send data to the server to add the container
+                            fetch('/add_container', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                },
+                                body: new URLSearchParams({
+                                    url: site,
+                                    email: loginName,
+                                    password: password,
+                                    key_name: keyName
+                                })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.message === 'Container added successfully') {
+                                    // Close the modal
+                                    $('#exampleModal').modal('hide');
+                    
+                                    // Reset the form
+                                    document.getElementById('modalForm').reset();
+                    
+                                    // Fetch and update containers
+                                    fetchContainers();
+                                } else {
+                                    alert('Failed to add container: ' + data.message);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Failed to add container: ' + error.message);
+                            });
+                        });
+                    
+                        function fetchContainers() {
+                            fetch('/fetch_containers', {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    const containerWrapper = document.getElementById('containerWrapper');
+                                    containerWrapper.innerHTML = ''; // Clear existing content
+                                    data.containers.forEach(container => {
+                                        const newDiv = document.createElement('div');
+                                        newDiv.className = 'container-fluid card mb-2 rounded-card';
+                                        newDiv.style.maxWidth = '1400px';
+                                        newDiv.style.height = '130px';
+                                        newDiv.innerHTML = `
+                                            <div class="row no-gutters">
+                                                <div class="col-2 text-center" style="margin-right:-30px;">
+                                                    <button type="button" class="btn btn-success viewButton" data-toggle="modal" data-target="#keyNameModal">View</button>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="card-body align-middle" style="max-width: 1400px; height: 80px;">
+                                                        <p>${container.site}</p>
+                                                        <a style="margin-top: -10px; font-size: 20px;">${container.login_name}</a>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+                                        containerWrapper.appendChild(newDiv);
+                    
+                                        // Add event listener to the view button to open the modal and store site and login name
+                                        newDiv.querySelector('.viewButton').addEventListener('click', function() {
+                                            const button = this;
+                                            button.dataset.site = container.site;
+                                            button.dataset.loginName = container.login_name;
+                                            console.log(`View button clicked: site=${button.dataset.site}, loginName=${button.dataset.loginName}`);
+                                        });
+                                    });
+                                } else {
+                                    console.log('Failed to fetch containers:', data.message);
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+                        }
+                    
+                        // Handle key name form submission
+                        document.getElementById('keyNameForm').addEventListener('submit', function(event) {
+                            event.preventDefault();
+                            const keyName = document.getElementById('keyNameInput').value;
+                            const viewButton = document.querySelector('.viewButton[data-toggle="modal"]');
+                            
+                            if (!viewButton) {
+                                console.error('View button not found.');
+                                return;
+                            }
+                    
+                            // Fetch the stored site and loginName from data attributes
+                            const site = viewButton.dataset.site;
+                            const loginName = viewButton.dataset.loginName;
+                            console.log(`Key name form submitted: keyName=${keyName}, site=${site}, loginName=${loginName}`);
+                    
+                            // Fetch the detailed information using the key name
+                            fetch('/fetch_key_details', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                },
+                                body: new URLSearchParams({
+                                    key_name: keyName,
+                                    url: site,
+                                    email: loginName
+                                })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    console.log('Fetched details successfully:', data);
+                                    document.getElementById('viewUrl').textContent = data.site;
+                                    document.getElementById('viewEmail').textContent = data.login_name;
+                                    document.getElementById('viewPassword').textContent = data.password;
+                                    $('#viewModal').modal('show');
+                                } else {
+                                    alert('Failed to fetch details: ' + data.message);
+                                }
+                            })
+                            .catch((error) => {
+                                console.error('Error:', error);
+                                alert('Failed to fetch details: ' + error.message);
+                            });
+                    
+                            $('#keyNameModal').modal('hide');
+                        });
+                    });
+                        
+</script>
+
+{% endblock %}

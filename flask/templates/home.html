@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Kryptos</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" type="text/css" href="{{ url_for ('static', filename='style.css')}}">
+        
+    </head>
+      <nav class="navbar navbar-light bg-light" style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <a class="navbar-brand mb-0 h2"><b>Kry<span style="color: rgb(8, 109, 73);">ptos***</b></span></a></a>
+          </ul>
+        </div>
+      </nav>
+</head>
+<body>
+    <style>
+        .card-container {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-left: -150px;
+        }
+        .card {
+            margin: 10px;
+            font-size: 24px;
+            width: 100%; /* Set the card width to 100% of its container */
+            max-width: 18rem;
+        }
+        .custom-nav-column {
+            background-color: rgb(8, 109, 73); /* Custom background color */
+            color: white;
+        }
+
+        .custom-tab-content {
+            background-color: rgb(8, 109, 73); /* Custom background color */
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: rgb(8, 109, 73); /* Custom background color for active link */
+            color: white; /* Custom text color for active link */
+        }
+
+        .nav-pills .nav-link:hover {
+            background-color: rgb(8, 109, 73); /* Custom background color on hover */
+            color: white; /* Custom text color on hover */
+        }
+
+        .nav-pills .nav-link {
+            color: black /* Custom text color for inactive links */
+        }
+        .modal-dialog1 {
+            max-width: 35%; /* Adjust this value as needed */
+            margin: 1.75rem auto; /* Adjusting the margin to center the modal */
+            padding-right: 10px;
+        }
+    </style>
+    <body>
+        <div class="row">
+            <div class="col-3">
+                <div class="nav flex-column nav-pills p-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
+                    <a class="nav-link" id="v-pills-profile-tab" data-toggle="modal" href="#masterPasswordModal" role="tab" aria-controls="v-pills-profile" aria-selected="false">Key Vault</a>
+                    <a class="nav-link" id="v-pills-messages-tab" href="passwordvault" role="tab" aria-controls="v-pills-messages" aria-selected="false">Records</a>
+                    <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+                </div>
+            </div>
+            <div class="col-9">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <!-- The Modal -->
+                        <div class="modal fade" id="inputModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Enter Key Details</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <form id="keyForm">
+                                            <div class="form-group">
+                                                <label1 for="keyName">Key Name:</label1>
+                                                <input type="text" class="form-control" id="keyName" name="keyName" required>
+                                            </div>
+                                            <button type="submit" id="submitBtn" class="btn btn-primary">Submit</button>
+                                        </form>
+                                    </div>
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="card-container">
+                            <div class="card" style="width: 18rem;">
+                                <img src="{{ url_for('static', filename='padlock.jpg') }}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center"><b>Keys</b></h5>
+                                    <p class="card-text text-center">Create Keys for your passwords.</p>
+                                    <a href="#" class="btn btn-primary" id="generate_key" type="button" class="btn btn-primary" data-toggle="modal" data-target="#inputModal">+ Create New</a>
+                                </div>
+                            </div>
+                            <div class="card" style="width: 18rem;">
+                                <img src="{{ url_for('static', filename='padlock.jpg') }}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center"><b>Records</b></h5>
+                                    <p class="card-text text-center">Add Passwords to your records</p>
+                                    <a href="#" class="btn btn-primary" type="add-record" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">+ Create New</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
+                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
+                    <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal for Adding Container -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Enter Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="modalForm">
+                            <div class="form-group">
+                                <label1 for="url">Site (URL)</label1>
+                                <input type="url" class="form-control" id="url" placeholder="https://example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label1 for="email">Login Name (Email)</label1>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label1 for="password">Password</label1>
+                                <input type="password" class="form-control" id="password" required>
+                            </div>
+                            <div class="form-group">
+                                <label1 for="keyName">Key Name</label1>
+                                <input type="text" class="form-control" id="keysName" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Container</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Master Password Modal -->
+        <div class="modal fade" id="masterPasswordModal" tabindex="-1" role="dialog" aria-labelledby="masterPasswordModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="masterPasswordModalLabel">Enter Master Password</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="masterPasswordForm">
+                            <div class="form-group">
+                                <label1 for="masterPassword">Master Password:</label1>
+                                <input type="password" class="form-control" id="masterPassword" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Verify</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="keysModal" tabindex="-1" role="dialog" aria-labelledby="keysModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="keysModalLabel">Key Vault</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Key Name</th>
+                                    <th>Key</th>
+                                </tr>
+                            </thead>
+                            <tbody id="keysTableBody">
+                                <!-- Keys will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            document.getElementById('modalForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                var site = document.getElementById('url').value;
+                var loginName = document.getElementById('email').value;
+                var password = document.getElementById('password').value;
+                var keyName = document.getElementById('keysName').value;
+                fetch('/add_container', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        url: site,
+                        email: loginName,
+                        password: password,
+                        key_name: keyName
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    // Optionally, fetch containers again to refresh the list
+                    fetchContainers();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+                document.getElementById('modalForm').reset();
+                $('#exampleModal').modal('hide');
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#myForm').on('submit', function(e) {
+                    e.preventDefault();
+                    var keyName = $('#keyName').val();
+                    $.ajax({
+                        url: '/button_action',
+                        type: 'POST',
+                        data: {
+                            key_name: keyName
+                        },
+                        success: function(response) {
+                            console.log('Success:', response);
+                            alert('Key generated successfully!');
+                        },
+                        error: function(error) {
+                            console.error('Error:', error);
+                            alert('Error generating key');
+                        }
+                    });
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                // Trigger the Master Password Modal
+                $('#keyVaultButton').click(function() {
+                    $('#masterPasswordModal').modal('show');
+                });
+                // Handle Master Password Form Submission
+                $('#masterPasswordForm').on('submit', function(event) {
+                    event.preventDefault();
+                    var masterPassword = $('#masterPassword').val();
+                    $.ajax({
+                        url: '/verify_master_password',
+                        type: 'POST',
+                        data: { masterPassword: masterPassword },
+                        success: function(response) {
+                            if (response.success) {
+                                $('#masterPasswordModal').modal('hide');
+                                fetchAndDisplayKeys();
+                            } else {
+                                alert(response.message || 'Incorrect master password. Please try again.');
+                            }
+                        },
+                        error: function() {
+                            alert('Error verifying password. Please try again later.');
+                        }
+                    });
+                });
+                // Function to fetch and display keys
+                function fetchAndDisplayKeys() {
+                    $.ajax({
+                        url: '/fetch_keys',
+                        type: 'GET',
+                        success: function(response) {
+                            if (response.success) {
+                                var keysHTML = '';
+                                response.keys.forEach(function(key) {
+                                    keysHTML += `<tr>
+                                        <td>${key.key_name}</td>
+                                        <td>${key.key}</td>
+                                    </tr>`;
+                                });
+                                $('#keysTableBody').html(keysHTML);
+                                $('#keysModal').modal('show');
+                            } else {
+                                alert(response.message || 'No keys found.');
+                            }
+                        },
+                        error: function() {
+                            alert('Failed to fetch keys.');
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+    </html>

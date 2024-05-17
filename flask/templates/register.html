@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title%} Register Page {% endblock %}
+{% block content%}
+<div class="container" id="signup">
+    <h1 class="form-title">Register</h1>
+    <form method="post" action="">
+      <div class="input-group">
+         <i class="fas fa-user"></i>
+         <input type="text" name="username" id="username" placeholder="Username" required>
+         <label for="username">Username</label>
+      </div>
+      <div class="input-group">
+          <i class="fas fa-envelope"></i>
+          <input type="email" name="email" id="email" placeholder="Email" required>
+          <label for="email">Email</label>
+      </div>
+      <div class="input-group">
+          <i class="fas fa-lock"></i>
+          <input type="password" name="password" id="password" placeholder="Password" required>
+          <label for="password">Password</label>
+      </div>
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" name="master_pass" id="master_pass" placeholder="Master Password" required>
+        <label for="master_password">Master Password</label>
+        
+      </div>
+      <div>
+        <p style="color: #A9A9A9;"><i>Master password is for your password vault</i></p>
+      </div>
+     <input type="submit" class="btn" value="Sign Up" name="signUp">
+    </form>
+  </div>
+<script src="{{ url_for('static', filename='script.js')}}"></script>
+{% endblock %}
