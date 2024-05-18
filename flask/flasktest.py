@@ -187,7 +187,7 @@ def fetch_containers():
     cur = mysql.connection.cursor()
     try:
         # Fetch records from the passwords table for the logged-in user
-        cur.execute("SELECT site, login_name FROM `passwords` WHERE key_id = %s", (user_id,))
+        cur.execute("SELECT site, login_name , title FROM `passwords` WHERE key_id = %s", (user_id,))
         records = cur.fetchall()
         
         if not records:
@@ -195,10 +195,11 @@ def fetch_containers():
 
         containers = []
         for record in records:
-            site, login_name = record
+            site, login_name, title = record
             containers.append({
                 'site': site,
-                'login_name': login_name
+                'login_name': login_name,
+                'title': title
             })
 
         return jsonify({'success': True, 'containers': containers}), 200
@@ -218,8 +219,9 @@ def add_container():
     login_name = request.form['email']
     password = request.form['password']
     key_name = request.form['key_name']
+    title = request.form['title']
 
-    print(f"Received data: site={site}, login_name={login_name}, password={password}, key_name={key_name}")
+    print(f"Received data: site={site}, login_name={login_name}, password={password}, key_name={key_name}, title={title}")
 
     cur = mysql.connection.cursor()
     try:
@@ -239,8 +241,8 @@ def add_container():
         print(f"Encrypted password: {encrypted_password}")
 
         # Insert into the passwords table
-        cur.execute("INSERT INTO `passwords` (key_id, site, login_name, passwords) VALUES (%s, %s, %s, %s)", 
-                    (user_id, site, login_name, encrypted_password))
+        cur.execute("INSERT INTO `passwords` (key_id, site, login_name, passwords, title) VALUES (%s, %s, %s, %s, %s)", 
+                    (user_id, site, login_name, encrypted_password, title))
         mysql.connection.commit()
         print("Data inserted successfully")
         return jsonify({'message': 'Container added successfully'}), 200
@@ -250,6 +252,7 @@ def add_container():
         return jsonify({'message': 'Database insertion failed: ' + str(e)}), 500
     finally:
         cur.close()
+
 
 
 
@@ -284,9 +287,13 @@ def decrypt_password():
         return jsonify({'message': 'User not logged in'}), 401
 
     user_id = session['user_id']
-    site = request.form['site']
-    login_name = request.form['login_name']
-    key_name = request.form['key_name']
+    site = request.form.get('site')
+    login_name = request.form.get('login_name')
+    key_name = request.form.get('key_name')
+    title = request.form.get('title')
+
+    if not all([site, login_name, key_name, title]):
+        return jsonify({'message': 'Missing data in request'}), 400
 
     cur = mysql.connection.cursor()
     try:
@@ -300,7 +307,7 @@ def decrypt_password():
         encryption_key = key_record[0]
 
         # Fetch the encrypted password from the passwords table
-        cur.execute("SELECT `passwords` FROM `passwords` WHERE key_id = %s AND site = %s AND login_name = %s", (user_id, site, login_name))
+        cur.execute("SELECT `passwords` FROM `passwords` WHERE key_id = %s AND site = %s AND login_name = %s AND title = %s", (user_id, site, login_name, title))
         password_record = cur.fetchone()
 
         if not password_record:
@@ -316,6 +323,7 @@ def decrypt_password():
         return jsonify({'message': 'Failed to decrypt password: ' + str(e)}), 500
     finally:
         cur.close()
+
 
 @app.route('/logout')
 def logout():
